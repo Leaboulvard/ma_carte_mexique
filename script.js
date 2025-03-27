@@ -20,17 +20,20 @@ var points = [
  //           .bindPopup(`<b>${point.name}</b><br>${point.desc}<br><img src="${point.img}" width="150">`);
  //   });
 
+// Ajout des marqueurs
+points.forEach(point => {
+    let imagesHTML = "";  // Variable pour stocker le HTML des images
 
-    points.forEach(point => {
-        let imagesHTML = "";  // Variable pour stocker le HTML des images
-    
-        // Parcours du tableau d'images pour les ajouter dans le HTML
-        point.imgs.forEach(img => {
+    // Vérifie si "point.img" est un tableau ou une chaîne de caractères
+    if (Array.isArray(point.img)) {
+        point.img.forEach(img => {
             imagesHTML += `<img src="${img}" width="150" style="margin: 5px;">`;
         });
-    
-        // Création du marqueur avec plusieurs images dans la popup
-        L.marker([point.lat, point.lng]).addTo(map)
-            .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`);
-    });
-    
+    } else {
+        imagesHTML = `<img src="${point.img}" width="150" style="margin: 5px;">`;
+    }
+
+    // Création du marqueur avec les images et la description
+    L.marker([point.lat, point.lng]).addTo(map)
+        .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`);
+});
