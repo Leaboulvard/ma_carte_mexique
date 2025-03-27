@@ -14,20 +14,22 @@ var points = [
     { name: "Mexico City - Bosque de Chapultepec", lat: 19.42879, lng: -99.10653, img: "images/mexico-4.jpg", desc: "Petite place sympathique typique de quartier mexicain !" },
 ];
 
-// Ajout des marqueurs avec gestion des images (singulières et multiples)
+// Ajout des marqueurs
 points.forEach(point => {
-    let imagesHTML = "";  // Variable pour stocker le HTML des images
+    let imagesHTML = "";  // Variable pour stocker les images
 
-    // Vérifie si "point.img" est un tableau ou une chaîne de caractères
+    // Vérifie si "point.img" est une seule image ou un tableau d'images
     if (Array.isArray(point.img)) {
+        // Si c'est un tableau, on boucle et ajoute chaque image
         point.img.forEach(img => {
             imagesHTML += `<img src="${img}" width="150" style="margin: 5px;">`;
         });
     } else {
+        // Sinon, ajoute une seule image
         imagesHTML = `<img src="${point.img}" width="150" style="margin: 5px;">`;
     }
 
-    // Création du marqueur avec les images et la description
+    // Création du marqueur avec la description et les images dans la popup
     L.marker([point.lat, point.lng]).addTo(map)
         .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`);
 });
