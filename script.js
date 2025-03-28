@@ -34,7 +34,7 @@ points.forEach(point => {
     // Création du marqueur avec la description et les images dans la popup
     L.marker([point.lat, point.lng]).addTo(map)
         .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`, {
-            maxWidth: 400,  // Largeur maximale de la popup
-            maxHeight: 400, // Hauteur maximale de la popup
+            maxWidth: 500,  // Largeur maximale de la popup
+            maxHeight: 500, // Hauteur maximale de la popup
         });
 });
