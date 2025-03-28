@@ -15,20 +15,24 @@ var points = [
 ];
 
 // Ajout des marqueurs
-points.forEach(point => {
+points.forEach((point, index) => {
     let imagesHTML = "";  // Variable pour stocker les images
 
     // Vérifie si "point.img" est une seule image ou un tableau d'images
     if (Array.isArray(point.img)) {
-        // Si c'est un tableau, on boucle et ajoute chaque image
-        imagesHTML += `<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">`; // Flexbox pour aligner les images
-        point.img.forEach(img => {
-            imagesHTML += `<img src="${img}" width="250" style="margin: 5px; display: inline-block; max-width: 100%;">`; // Ajuste la taille des images
-        });
-        imagesHTML += `</div>`;
+        // Si c'est un tableau, on prépare le défilement avec un bouton
+        imagesHTML = `
+            <div id="image-slider-${index}" class="image-slider" style="text-align: center;">
+                <img src="${point.img[0]}" width="250" style="margin: 5px; max-width: 100%;" id="image-${index}-0">
+            </div>
+            <div style="text-align: center;">
+                <button onclick="prevImage(${index}, ${point.img.length})">Précédent</button>
+                <button onclick="nextImage(${index}, ${point.img.length})">Suivant</button>
+            </div>
+        `;
     } else {
-        // Sinon, ajoute une seule image et la centre
-        imagesHTML = `<div style="text-align: center;"><img src="${point.img}" width="250" style="margin: 5px; max-width: 100%;"></div>`; // Centre l'image
+        // Sinon, on affiche une seule image
+        imagesHTML = `<div style="text-align: center;"><img src="${point.img}" width="250" style="margin: 5px; max-width: 100%;"></div>`;
     }
 
     // Création du marqueur avec la description et les images dans la popup
@@ -38,3 +42,23 @@ points.forEach(point => {
             maxHeight: 500, // Hauteur maximale de la popup
         });
 });
+
+// Fonction pour changer l'image suivante
+function nextImage(index, totalImages) {
+    let currentImage = document.querySelector(`#image-${index}-current`);
+    let nextIndex = (parseInt(currentImage.id.split('-')[2]) + 1) % totalImages; // Cycle les images
+    let nextImage = document.querySelector(`#image-${index}-${nextIndex}`);
+    currentImage.style.display = 'none';
+    nextImage.style.display = 'block';
+    currentImage.id = `image-${index}-${nextIndex}`;
+}
+
+// Fonction pour changer l'image précédente
+function prevImage(index, totalImages) {
+    let currentImage = document.querySelector(`#image-${index}-current`);
+    let prevIndex = (parseInt(currentImage.id.split('-')[2]) - 1 + totalImages) % totalImages; // Cycle les images en sens inverse
+    let prevImage = document.querySelector(`#image-${index}-${prevIndex}`);
+    currentImage.style.display = 'none';
+    prevImage.style.display = 'block';
+    currentImage.id = `image-${index}-${prevIndex}`;
+}
