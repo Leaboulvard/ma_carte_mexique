@@ -21,15 +21,20 @@ points.forEach(point => {
     // Vérifie si "point.img" est une seule image ou un tableau d'images
     if (Array.isArray(point.img)) {
         // Si c'est un tableau, on boucle et ajoute chaque image
+        imagesHTML += `<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">`; // Flexbox pour aligner les images
         point.img.forEach(img => {
-            imagesHTML += `<img src="${img}" width="200" style="margin: 5px; display: inline-block;">`; // Utilisation de display: inline-block
+            imagesHTML += `<img src="${img}" width="250" style="margin: 5px; display: inline-block; max-width: 100%;">`; // Ajuste la taille des images
         });
+        imagesHTML += `</div>`;
     } else {
-        // Sinon, ajoute une seule image
-        imagesHTML = `<img src="${point.img}" width="200" style="margin: 5px; display: inline-block;">`; // Utilisation de display: inline-block
+        // Sinon, ajoute une seule image et la centre
+        imagesHTML = `<div style="text-align: center;"><img src="${point.img}" width="250" style="margin: 5px; max-width: 100%;"></div>`; // Centre l'image
     }
 
     // Création du marqueur avec la description et les images dans la popup
     L.marker([point.lat, point.lng]).addTo(map)
-        .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`);
+        .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imagesHTML}`, {
+            maxWidth: 400,  // Largeur maximale de la popup
+            maxHeight: 400, // Hauteur maximale de la popup
+        });
 });
