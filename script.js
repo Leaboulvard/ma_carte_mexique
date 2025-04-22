@@ -14,15 +14,23 @@ var points = [
 ];
 
 // Ajout des marqueurs
-points.forEach((point) => {
-    let imageHTML = `<div style="text-align: center;"><img src="${point.img}" width="250" style="margin: 5px; max-width: 100%;"></div>`;
+points.forEach((point, index) => {
+    let imageUrl = Array.isArray(point.img) ? point.img[0] : point.img; // on prend la 1ère image
 
-    L.marker([point.lat, point.lng]).addTo(map)
-        .bindPopup(`<b>${point.name}</b><br>${point.desc}<br>${imageHTML}`, {
-            maxWidth: 600,
-            maxHeight: 500,
-        });
+    // Crée une icône personnalisée avec l'image miniature
+    let customIcon = L.icon({
+        iconUrl: imageUrl,
+        iconSize: [40, 40], // taille de l’icône
+        iconAnchor: [20, 40], // position de l’ancre
+        popupAnchor: [0, -40], // où s’ouvre la popup
+        className: 'custom-marker'
+    });
+
+    // Ajout du marqueur avec l'icône personnalisée
+    L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map)
+        .bindPopup(`<b>${point.name}</b><br>${point.desc}`);
 });
+
 
 // Création d'une polyline directrice en pointillés pour représenter le parcours
 var latlngs = points.map(p => [p.lat, p.lng]);  // Tableau de coordonnées
