@@ -28,7 +28,13 @@ points.forEach((point, index) => {
 
     // Ajout du marqueur avec l'icône personnalisée
     L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map)
-        .bindPopup(`<b>${point.name}</b><br>${point.desc}`);
+        .bindPopup(`
+            <div style="max-width: 250px;">
+                <h3 style="margin-bottom: 5px;">${point.name}</h3>
+                <p>${point.desc}</p>
+                <img src="${imageUrl}" width="100%" style="margin-top: 5px; border-radius: 10px;">
+            </div>
+        `);
 });
 
 
