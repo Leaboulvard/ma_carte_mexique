@@ -1,10 +1,13 @@
 // Création de la carte
 var map = L.map('map').setView([23.6345, -102.5528], 5); // Centré sur le Mexique
 
-// Ajout du fond de carte OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
+// fond de carte CartoDB Positron (clair et minimaliste)
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
 }).addTo(map);
+
 
 // Liste des lieux visités (on conserve tel quel)
 var points = [
