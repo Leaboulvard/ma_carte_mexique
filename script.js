@@ -30,20 +30,21 @@ var points = [
     { name: "Mexico City <br> Theotihuacan", lat: 19.69492, lng: -98.84983, img: "images/mexico-27.jpg", desc: "Voici un repas typiquement mexicain composé de viande rouge et blanche, de haricots rouges, de quesadillas, ainsi que d'une raquette de nopal, une variété de cactus comestible très courante au Mexique." }
 ];
 
-// Ajout des marqueurs
 points.forEach((point, index) => {
-    let mediaUrl = point.video ? point.video : point.img; // Utilise la vidéo si elle existe, sinon l'image
+    let mediaUrl = point.video ? point.video : point.img;
 
-    // Crée une icône personnalisée avec l'image miniature
+    // Utilise une icône par défaut si aucune image n'est disponible
+    let iconUrl = point.img ? point.img : 'images/default-icon.png'; // Remplacez par une icône réelle si vous n’avez pas d’image
+
     let customIcon = L.icon({
-        iconUrl: point.img,
-        iconSize: [40, 40], // taille de l’icône
-        iconAnchor: [20, 40], // position de l’ancre
-        popupAnchor: [0, -40], // où s’ouvre la popup
+        iconUrl: iconUrl,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40],
         className: 'custom-marker'
     });
 
-    // Ajout du marqueur avec l'icône personnalisée
+    // Ajout du marqueur
     L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map)
         .bindPopup(`
             <div style="max-width: 250px;">
@@ -55,7 +56,7 @@ points.forEach((point, index) => {
                         <source src="${point.video}" type="video/mp4">
                         Votre navigateur ne supporte pas la balise vidéo.
                     </video>` 
-                    : `<img src="${mediaUrl}" width="100%" style="margin-top: 5px; border-radius: 10px;">`
+                    : `<img src="${point.img}" width="100%" style="margin-top: 5px; border-radius: 10px;">`
                 }
             </div>
         `);
