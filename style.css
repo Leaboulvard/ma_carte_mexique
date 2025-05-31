@@ -1,0 +1,20 @@
+#timeline {
+    background: #eee;
+    border-radius: 5px;
+  }
+  
+  #date-label {
+    background: #ff4444;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    pointer-events: none;
+    font-size: 14px;
+  }
+  
+  .timeline-marker:hover {
+    background-color: #ff4444;
+    cursor: pointer;
+  }
+  

@@ -31,6 +31,15 @@
 <h2>Mon voyage au Mexique 🌎</h2>
 <p>Clique sur un marqueur pour voir des photos et infos des lieux que j'ai visitée !</p>
 <div id="map"></div>
+<div id="timeline" style="width:80%; height:60px; margin: 20px auto; position: relative; border-top: 2px solid #ccc;">
+    <!-- Les marqueurs de date seront insérés ici dynamiquement -->
+    <div id="date-label" style="position:absolute; top:-25px; font-weight:bold; display:none;"></div>
+  </div>
+  
+  <div id="gallery" style="width:80%; margin: 0 auto; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+    <!-- Miniatures insérées ici par JS -->
+  </div>
+  
 
 <script src="script.js"></script>
 
