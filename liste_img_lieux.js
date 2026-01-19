@@ -25,4 +25,4 @@ export const points = [
     { name: "Mérida <br> Café Bar 500 Noches", lat: 21.00816, lng: -89.60936, img: ["images/merida_1.jpg", "images/merida_2.jpg"], desc: "Autour, l’ambiance feutrée d’un restaurant où les verres de vin captent les reflets des bougies, pendant qu’un piano distille ses notes en arrière-plan." , date : "2025-03-08"},
     { name: "Mérida <br> Santiago Park", lat: 20.96992, lng: -89.63009, img: "images/merida_3.jpg", desc: "Je me baladais quand un Cténosaure Noir a décidé de squatter le trottoir. À deux doigts de lui marcher dessus…" , date : "2025-03-09"},
     { name: "Mérida <br> Parque de la Paz ", lat: 20.97200, lng: -89.64177, img: "images/merida_4.jpg", desc: "Je me posais souvent devant cet édifice en pensant admirer un palais. C’était en réalité un centre contre le cancer. Un contraste troublant avec ceux que j’ai tant fréquentés en France." , date : "2025-03-10"}
-]
+];
