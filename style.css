@@ -1,20 +1,73 @@
-#timeline {
-    background: #eee;
-    border-radius: 5px;
-  }
-  
-  #date-label {
-    background: #ff4444;
-    color: white;
-    padding: 3px 8px;
-    border-radius: 4px;
-    transform: translateX(-50%);
-    pointer-events: none;
-    font-size: 14px;
-  }
-  
-  .timeline-marker:hover {
-    background-color: #ff4444;
-    cursor: pointer;
-  }
-  
+/* Conteneur global */
+#timeline-wrap{
+  width: 80%;
+  margin: 16px auto;
+}
+
+/* La barre de timeline */
+#timeline{
+  position: relative;
+  height: 56px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
+
+/* Traits des lundis */
+.timeline-tick{
+  position: absolute;
+  bottom: 12px;
+  width: 2px;
+  height: 18px;
+  background: #777;
+  cursor: pointer;
+}
+
+/* Texte sous les traits (3 mars, 10 mars...) */
+.timeline-label{
+  position: absolute;
+  bottom: 32px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Surlignage de la semaine active */
+.timeline-highlight{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: rgba(0,0,0,0.08);
+  pointer-events: none;
+  transition: left 180ms ease, width 180ms ease;
+}
+
+
+/* Petit point du jour exact */
+.timeline-dot{
+  position: absolute;
+  bottom: 21px;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #111;
+  transform: translateX(-50%);
+  pointer-events: none;
+  transition: left 180ms ease;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.9);
+}
+
+
+/* Effet hover (plus simple que .timeline-marker) */
+.timeline-tick:hover{
+  background: #ff4444;
+}
+.timeline-label:hover{
+  color: #ff4444;
+}
