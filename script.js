@@ -73,8 +73,8 @@ points.forEach(point => {
 
   // Clic sur marqueur → mise à jour timeline
   marker.on("click", () => {
-    if (point.date && window.setActiveDate) {
-      window.setActiveDate(point.date);
+  if (point.date && window.setActiveDate) {
+    window.setActiveDate(point.date, true); // ✅ true = filtre semaine
     }
   });
 });
@@ -118,8 +118,9 @@ if (timelineEl && allDates.length) {
   const maxT = maxDate.getTime();
 
   function dateToPercent(ymd) {
-    const t = parseYMD(ymd).getTime();
-    return ((t - minT) / (maxT - minT)) * 100;
+  const t = parseYMD(ymd).getTime();
+  if (maxT === minT) return 0;  // ajout garde fou 
+  return ((t - minT) / (maxT - minT)) * 100;
   }
 
   // éléments visuels
@@ -139,79 +140,103 @@ if (timelineEl && allDates.length) {
     cur = addDaysUTC(cur, 7);
   }
 
-  // filtre semaine
-  function applyWeekFilter(weekStartYMD) {
-    const start = parseYMD(weekStartYMD);
-    const end = addDaysUTC(start, 7);
+  // Filtrage ON/OFF
+let filterEnabled = false;
 
-    const visible = [];
-
-    markers.forEach(({ marker, point }) => {
-      const d = parseYMD(point.date);
-      const inWeek = d >= start && d < end;
-
-      if (inWeek) {
-        if (!map.hasLayer(marker)) marker.addTo(map);
-        visible.push(marker);
-      } else {
-        if (map.hasLayer(marker)) map.removeLayer(marker);
-      }
-    });
-
-    if (visible.length) {
-      const group = L.featureGroup(visible);
-      map.fitBounds(group.getBounds().pad(0.2));
-    }
-  }
-
-  // mise à jour complète
-  function setActiveDate(dateYMD) {
-    const d = parseYMD(dateYMD);
-    const mon = mondayOf(d);
-    const nextMon = addDaysUTC(mon, 7);
-
-    const start = dateToPercent(toYMD(mon));
-    const end = dateToPercent(toYMD(nextMon));
-    const dayPos = dateToPercent(dateYMD);
-
-    highlight.style.left = `${start}%`;
-    highlight.style.width = `${end - start}%`;
-    dot.style.left = `${dayPos}%`;
-
-    applyWeekFilter(toYMD(mon));
-  }
-
-  window.setActiveDate = setActiveDate;
-
-  // création repères lundis
-  mondays.forEach(ymd => {
-    const left = dateToPercent(ymd);
-
-    const tick = document.createElement("div");
-    tick.className = "timeline-tick";
-    tick.style.left = `${left}%`;
-
-    const label = document.createElement("div");
-    label.className = "timeline-label";
-    label.style.left = `${left}%`;
-    label.textContent = formatFR(ymd);
-
-    const onClick = () => setActiveDate(ymd);
-    tick.onclick = onClick;
-    label.onclick = onClick;
-
-    timelineEl.appendChild(tick);
-    timelineEl.appendChild(label);
+function clearFilterShowAll() {
+  filterEnabled = false;
+  markers.forEach(({ marker }) => {
+    if (!map.hasLayer(marker)) marker.addTo(map);
   });
-
-  setActiveDate(allDates[0]);
 }
 
+// Filtrage des marqueurs par semaine active
+function applyWeekFilter(weekStartYMD) {
+  const weekStart = parseYMD(weekStartYMD);
+  const weekEnd = addDaysUTC(weekStart, 7);
+
+  const visible = [];
+
+  markers.forEach(({ marker, point }) => {
+    if (!point.date) return;
+
+    const d = parseYMD(point.date);
+    const inWeek = d.getTime() >= weekStart.getTime() && d.getTime() < weekEnd.getTime();
+
+    if (inWeek) {
+      if (!map.hasLayer(marker)) marker.addTo(map);
+      visible.push(marker);
+    } else {
+      if (map.hasLayer(marker)) map.removeLayer(marker);
+    }
+  });
+
+  if (visible.length) {
+    const group = L.featureGroup(visible);
+    map.fitBounds(group.getBounds().pad(0.2));
+  }
+}
+
+// Met à jour highlight + dot (et filtre seulement si demandé)
+function setActiveDate(dateYMD, shouldFilter = false) {
+  const d = parseYMD(dateYMD);
+  const mon = mondayOf(d);
+  const nextMon = addDaysUTC(mon, 7);
+
+  const start = dateToPercent(toYMD(mon));
+  const end = dateToPercent(toYMD(nextMon));
+  const dayPos = dateToPercent(dateYMD);
+
+  highlight.style.left = `${start}%`;
+  highlight.style.width = `${Math.max(0, end - start)}%`;
+  dot.style.left = `${dayPos}%`;
+
+  if (shouldFilter) {
+    filterEnabled = true;
+    applyWeekFilter(toYMD(mon));
+  } else {
+    // si filtre pas activé, on montre tout
+    if (!filterEnabled) clearFilterShowAll();
+  }
+}
+window.setActiveDate = setActiveDate;
+
+// Crée les repères cliquables (ticks + labels)
+mondays.forEach(ymd => {
+  const left = dateToPercent(ymd);
+
+  const tick = document.createElement("div");
+  tick.className = "timeline-tick";
+  tick.style.left = `${left}%`;
+
+  const label = document.createElement("div");
+  label.className = "timeline-label";
+  label.style.left = `${left}%`;
+  label.textContent = formatFR(ymd);
+
+  const onClick = () => setActiveDate(ymd, true); // filtre semaine
+  tick.addEventListener("click", onClick);
+  label.addEventListener("click", onClick);
+
+  timelineEl.appendChild(tick);
+  timelineEl.appendChild(label);
+});
+
+// Au chargement : highlight/dot, mais pas de filtre
+setActiveDate(allDates[0], false);
+clearFilterShowAll();
+
+// Bouton "Afficher tout"
+document.getElementById("show-all")?.addEventListener("click", () => {
+  clearFilterShowAll();
+});
+
+} // ✅ fin du if (timelineEl && allDates.length)
+
 
 // ===============================
-// 4) PARCOURS
+// 4) PARCOURS (toujours affiché)
 // ===============================
-
 const latlngs = points.map(p => [p.lat, p.lng]);
 
 const parcours = L.polyline(latlngs, {
@@ -220,4 +245,7 @@ const parcours = L.polyline(latlngs, {
   dashArray: "5, 10",
   opacity: 0.7
 }).addTo(map);
+
 map.fitBounds(parcours.getBounds());
+
+ 
