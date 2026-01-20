@@ -1,44 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte Interactive - Voyage au Mexique</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #map {
-            height: 600px;
-            width: 80%;
-            margin: auto;
-            border: 2px solid #000;
-        }
-        .custom-marker {
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 0 5px #000;
-            border: 2px solid white;
-        }
-    
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte Interactive - Voyage au Mexique</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Ton CSS (timeline etc.) -->
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #map {
+      height: 600px;
+      width: 80%;
+      margin: auto;
+      border: 2px solid #000;
+    }
+    .custom-marker {
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 5px #000;
+      border: 2px solid white;
+    }
+  </style>
 </head>
+
 <body>
+  <h2>Mon voyage au Mexique 🌎</h2>
+  <p>Clique sur un marqueur pour voir des photos et infos des lieux que j'ai visités !</p>
 
-<h2>Mon voyage au Mexique 🌎</h2>
-<p>Clique sur un marqueur pour voir des photos et infos des lieux que j'ai visitée !</p>
+  <div id="map"></div>
 
-<div id="map"></div>
+  <button id="show-all" style="margin:12px auto; padding:8px 12px; cursor:pointer;">
+    Afficher tout
+  </button>
 
-<div id="timeline-wrap">
-  <div id="timeline"></div>
-</div>
+  <div id="timeline-wrap">
+    <div id="timeline"></div>
+  </div>
 
-<script type="module" src="script.js"></script>
-
+  <script type="module" src="script.js"></script>
 </body>
 </html>
-
