@@ -155,8 +155,6 @@ function applyWeekFilter(weekStartYMD) {
   const weekStart = parseYMD(weekStartYMD);
   const weekEnd = addDaysUTC(weekStart, 7);
 
-  const visible = [];
-
   markers.forEach(({ marker, point }) => {
     if (!point.date) return;
 
@@ -165,17 +163,12 @@ function applyWeekFilter(weekStartYMD) {
 
     if (inWeek) {
       if (!map.hasLayer(marker)) marker.addTo(map);
-      visible.push(marker);
     } else {
       if (map.hasLayer(marker)) map.removeLayer(marker);
     }
   });
-
-  if (visible.length) {
-    const group = L.featureGroup(visible);
-    map.fitBounds(group.getBounds().pad(0.2));
-  }
 }
+
 
 // Met à jour highlight + dot (et filtre seulement si demandé)
 function setActiveDate(dateYMD, shouldFilter = false) {
