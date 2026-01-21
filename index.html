@@ -8,42 +8,35 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+    <!-- Polices carnet de voyage -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Special+Elite&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+
   <!-- Ton CSS (timeline etc.) -->
   <link rel="stylesheet" href="style.css">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-    #map {
-      height: 600px;
-      width: 80%;
-      margin: auto;
-      border: 2px solid #000;
-    }
-    .custom-marker {
-      border-radius: 50%;
-      overflow: hidden;
-      box-shadow: 0 0 5px #000;
-      border: 2px solid white;
-    }
-  </style>
 </head>
 
-<body>
-  <h2>Mon voyage au Mexique 🌎</h2>
-  <p>Clique sur un marqueur pour voir des photos et infos des lieux que j'ai visités !</p>
+<body class="page">
+  <header class="top">
+    <div class="top-line">
+      <span class="arrow">⟵</span>
+      <span class="sub">Mars – Avril 2025 · Carnet de voyage interactif</span>
+      <span class="arrow">⟶</span>
+    </div>
+
+    <h1>Mon voyage au Mexique <span class="stamp-emoji">🇲🇽</span></h1>
+  </header>
 
   <div id="map"></div>
-
-  <button id="show-all" style="margin:12px auto; padding:8px 12px; cursor:pointer;">
-    Afficher tout
-  </button>
 
   <div id="timeline-wrap">
     <div id="timeline"></div>
   </div>
+
+  <button id="show-all">Afficher tout</button>
 
   <script type="module" src="script.js"></script>
 </body>

@@ -74,54 +74,62 @@
 
 /* --- Base carnet --- */
 :root{
-  --paper:#f6f1e8;
-  --ink:#2b2b2b;
-  --muted:#6b6b6b;
-  --shadow: 0 18px 50px rgba(0,0,0,.16);
-  --shadowSoft: 0 10px 30px rgba(0,0,0,.10);
-  --radius: 18px;
+  --paper:#f4efe5;
+  --ink:#2c2c2c;
+  --muted:#6e6a61;
+  --shadow: 0 18px 50px rgba(0,0,0,.18);
+  --shadowSoft: 0 10px 28px rgba(0,0,0,.14);
+  --radius: 22px;
 }
 
+/* PAGE PAPIER */
 body{
   margin:0;
   color:var(--ink);
   background: var(--paper);
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
 
-/* légère texture papier (sans image externe) */
+/* texture papier + petites taches */
 .page{
   min-height:100vh;
   background:
-    radial-gradient(1200px 600px at 30% 10%, rgba(0,0,0,.04), transparent 60%),
-    radial-gradient(900px 500px at 80% 30%, rgba(0,0,0,.03), transparent 55%),
+    radial-gradient(18px 18px at 10% 18%, rgba(120,80,40,.10), transparent 60%),
+    radial-gradient(24px 24px at 22% 12%, rgba(120,80,40,.08), transparent 65%),
+    radial-gradient(20px 20px at 80% 20%, rgba(120,80,40,.08), transparent 65%),
     linear-gradient(0deg, rgba(0,0,0,.02), rgba(0,0,0,.02));
 }
-
+/* HEADER */
 .top{
   text-align:center;
-  padding: 28px 16px 18px;
-}
-.top h1{
-  margin:0;
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: .3px;
-}
-.top p{
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  font-size: 14px;
+  padding: 26px 16px 10px;
 }
 
-.layout{
-  width: min(1180px, 94vw);
-  margin: 0 auto 28px;
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 22px;
-  align-items: start;
+.top-line{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.top-line .arrow{
+  opacity: .7;
+}
+
+.top h1{
+  margin:0;
+  font-family: "Playfair Display", serif;
+  font-size: 42px;
+  letter-spacing: .2px;
+}
+
+.stamp-emoji{
+  font-size: 22px;
+  margin-left: 6px;
+  vertical-align: middle;
 }
 
 /* --- Carte postale --- */
@@ -208,21 +216,25 @@ body{
   padding: 16px 16px 10px;
 }
 
+/* CARTE (cadre style carnet) */
 #map{
-  height: 560px;
-  width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,.08);
+  height: 610px;
+  width: min(1180px, 94vw);
+  margin: 18px auto 0;
+  border-radius: 18px;
+  border: 2px solid rgba(40,40,40,.65);
+  box-shadow: var(--shadow);
   overflow:hidden;
 }
 
-/* marqueurs ronds photo */
+/* Marqueurs ronds photo */
 .custom-marker{
   border-radius: 50%;
   overflow: hidden;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.9), 0 10px 18px rgba(0,0,0,.18);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.92), 0 12px 22px rgba(0,0,0,.18);
   border: 2px solid rgba(0,0,0,.25);
 }
+
 
 /* responsive */
 @media (max-width: 980px){
@@ -236,50 +248,90 @@ body{
 
 
 /* --- Carte postale en overlay Leaflet --- */
-.story-card {
-  width: 320px;
-  background: rgba(255,255,255,0.88);
+.story-card{
+  width: 330px;
+  background: rgba(255,255,255,.86);
   border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 16px;
-  box-shadow: 0 18px 50px rgba(0,0,0,0.18);
-  padding: 14px;
+  border-radius: 18px;
+  box-shadow: var(--shadowSoft);
+  padding: 16px 16px 14px;
   backdrop-filter: blur(3px);
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  position: relative;
 }
 
-.story-card .polaroid {
-  background: #fff;
-  padding: 10px 10px 16px;
+/* scotch */
+.story-card::before{
+  content:"";
+  position:absolute;
+  top:-10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 120px;
+  height: 26px;
+  background: rgba(240, 220, 170, .75);
+  border: 1px dashed rgba(0,0,0,.12);
+  border-radius: 6px;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+}
+
+/* polaroid */
+.story-card .polaroid{
+  background:#fff;
+  padding: 12px 12px 18px;
   border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.12);
-  transform: rotate(-1deg);
+  box-shadow: 0 10px 22px rgba(0,0,0,.14);
+  transform: rotate(-1.2deg);
 }
 
-.story-card img {
-  width: 100%;
+.story-card img{
+  width:100%;
   height: 170px;
   object-fit: cover;
   border-radius: 10px;
-  display: block;
+  display:block;
 }
 
-.story-card h2 {
-  margin: 12px 0 6px;
-  font-size: 20px;
+/* TITRE “carte postale” */
+.story-card h2{
+  margin: 14px 0 4px;
+  text-align:center;
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
 }
 
-.story-card .meta {
-  color: #666;
+/* date style machine à écrire */
+.story-card .meta{
+  text-align:center;
+  color: var(--muted);
   font-size: 12px;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family: "Special Elite", ui-monospace, monospace;
   margin-bottom: 10px;
 }
 
-.story-card .desc {
+/* description carnet */
+.story-card .desc{
   margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #333;
+  text-align:center;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #3a3732;
+}
+
+/* Petit “tampon” décoratif */
+.story-card::after{
+  content:"MEXICO";
+  position:absolute;
+  right: 12px;
+  bottom: 10px;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(160,40,40,.35);
+  border: 2px solid rgba(160,40,40,.28);
+  padding: 6px 8px;
+  transform: rotate(8deg);
+  border-radius: 10px;
 }
 
 /* Empêche le drag de la carte quand tu cliques dans la carte postale */
@@ -290,4 +342,19 @@ body{
 .story-card * {
   pointer-events: auto;
 }
+
+
+/* Bouton “Afficher tout” façon carnet */
+#show-all{
+  display:block;
+  margin: 12px auto 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 2px solid rgba(40,40,40,.55);
+  background: rgba(255,255,255,.7);
+  cursor:pointer;
+  font-family: "Special Elite", ui-monospace, monospace;
+  box-shadow: 0 10px 18px rgba(0,0,0,.10);
+}
+#show-all:hover{ transform: translateY(-1px); }
 
