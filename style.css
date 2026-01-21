@@ -1,37 +1,34 @@
-/* Conteneur global */
+/* Conteneur global : on laisse de la place AU-DESSUS pour les labels */
 #timeline-wrap{
   width: 80%;
   margin: 16px auto;
-  padding-top: 18px; /* ⬅️ laisse de la place aux labels au-dessus */
+  padding-top: 28px;     /* ✅ espace pour les dates au-dessus */
 }
 
-
-/* La barre de timeline */
+/* La barre (fine) */
 #timeline{
   position: relative;
-  height: 16px;              /* timeline plus fine (au lieu de 56px) */
+  height: 16px;          /* ✅ barre fine */
   border-radius: 10px;
   background: #f3f3f3;
   border: 1px solid #ddd;
-  overflow: hidden;
+  overflow: visible;     /* ✅ important pour voir les labels au-dessus */
 }
 
-
-/* Traits des lundis */
+/* Traits des lundis (dans la barre) */
 .timeline-tick{
   position: absolute;
-  bottom: 0px;               /* ⬅️ plus bas */
+  top: 0;                /* ✅ colle en haut de la barre */
   width: 2px;
-  height: 16px;              /* ⬅️ plus petit */
+  height: 16px;          /* même hauteur que la barre */
   background: #777;
   cursor: pointer;
 }
 
-
-/* Texte sous les traits (3 mars, 10 mars...) */
+/* Dates AU-DESSUS de la barre */
 .timeline-label{
   position: absolute;
-  top: -22px;              /* place le texte AU-DESSUS de la barre */
+  top: -22px;            /* ✅ au-dessus de la barre */
   transform: translateX(-50%);
   font-size: 12px;
   color: #333;
@@ -40,38 +37,34 @@
   user-select: none;
 }
 
-
-
-/* Surlignage de la semaine active */
+/* Surlignage semaine active */
 .timeline-highlight{
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
-  height: 100%;
+  height: 16px;          /* même hauteur que la barre */
   background: rgba(0,0,0,0.08);
   pointer-events: none;
   transition: left 180ms ease, width 180ms ease;
+  border-radius: 10px;
 }
 
-
-/* Petit point du jour exact */
+/* Point du jour (centré dans la barre) */
 .timeline-dot{
   position: absolute;
-  bottom: 3px;               /* ⬅️ centré dans la barre fine */
+  top: 50%;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #111;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
   transition: left 180ms ease;
   box-shadow: 0 0 0 3px rgba(255,255,255,0.9);
 }
 
-
-
-/* Effet hover (plus simple que .timeline-marker) */
+/* Hover */
 .timeline-tick:hover{
   background: #ff4444;
 }
