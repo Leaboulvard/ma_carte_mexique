@@ -14,6 +14,72 @@ L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
 }).addTo(map);
 
 
+
+// ===============================
+// 1.5) Carte postale (overlay en haut à gauche)
+// ===============================
+
+const StoryControl = L.Control.extend({
+  onAdd: function () {
+    const div = L.DomUtil.create("div", "leaflet-control story-control");
+
+    div.innerHTML = `
+      <div class="story-card" id="storyCard">
+        <div class="polaroid">
+          <img id="cardMediaImg" src="images/default-cover.jpg" alt="Photo du lieu">
+        </div>
+
+        <h2 id="cardTitle">Choisis un lieu</h2>
+        <div class="meta" id="cardMeta">Clique sur un marqueur</div>
+        <p class="desc" id="cardDesc">Tu verras ici la description et la photo/vidéo associée.</p>
+      </div>
+    `;
+
+    // Empêche Leaflet de déplacer la carte quand on clique dans la carte postale
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.disableScrollPropagation(div);
+
+    return div;
+  }
+});
+
+map.addControl(new StoryControl({ position: "topleft" }));
+
+function setStoryCard(point) {
+  const titleEl = document.getElementById("cardTitle");
+  const metaEl  = document.getElementById("cardMeta");
+  const descEl  = document.getElementById("cardDesc");
+  const imgEl   = document.getElementById("cardMediaImg");
+
+  if (!titleEl || !metaEl || !descEl || !imgEl) return;
+
+  titleEl.innerHTML = point.name;
+
+  const dateTxt = point.date
+    ? new Date(point.date).toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" })
+    : "Date inconnue";
+  metaEl.textContent = dateTxt;
+
+  descEl.innerHTML = point.desc || "";
+
+  // Affiche une image : si tableau -> première; si vidéo -> icône caméra (ou image de couverture si tu en as une)
+  if (point.video) {
+    imgEl.src = "images/icon-video.png";
+    imgEl.alt = "Vidéo";
+  } else if (Array.isArray(point.img)) {
+    imgEl.src = point.img[0];
+    imgEl.alt = "Photo";
+  } else if (point.img) {
+    imgEl.src = point.img;
+    imgEl.alt = "Photo";
+  } else {
+    imgEl.src = "images/default-cover.jpg";
+    imgEl.alt = "Aperçu";
+  }
+}
+
+
+
 // ===============================
 // 2) CRÉATION DES MARQUEURS
 // ===============================
@@ -73,8 +139,9 @@ points.forEach(point => {
 
   // Clic sur marqueur → mise à jour timeline
   marker.on("click", () => {
-  if (point.date && window.setActiveDate) {
-    window.setActiveDate(point.date, true); // ✅ true = filtre semaine
+    setStoryCard(point);
+    if (point.date && window.setActiveDate) {
+      window.setActiveDate(point.date, true); // ✅ true = filtre semaine
     }
   });
 });
@@ -240,5 +307,3 @@ const parcours = L.polyline(latlngs, {
 }).addTo(map);
 
 map.fitBounds(parcours.getBounds());
-
- 
