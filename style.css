@@ -9,7 +9,7 @@
 /* La barre de timeline */
 #timeline{
   position: relative;
-  height: 24px;              /* timeline plus fine (au lieu de 56px) */
+  height: 16px;              /* timeline plus fine (au lieu de 56px) */
   border-radius: 10px;
   background: #f3f3f3;
   border: 1px solid #ddd;
@@ -20,9 +20,9 @@
 /* Traits des lundis */
 .timeline-tick{
   position: absolute;
-  bottom: 4px;               /* ⬅️ plus bas */
+  bottom: 0px;               /* ⬅️ plus bas */
   width: 2px;
-  height: 14px;              /* ⬅️ plus petit */
+  height: 16px;              /* ⬅️ plus petit */
   background: #777;
   cursor: pointer;
 }
@@ -31,7 +31,7 @@
 /* Texte sous les traits (3 mars, 10 mars...) */
 .timeline-label{
   position: absolute;
-  top: -20px;                /* ⬅️ place le texte au-dessus */
+  top: -22px;              /* place le texte AU-DESSUS de la barre */
   transform: translateX(-50%);
   font-size: 12px;
   color: #333;
@@ -39,6 +39,7 @@
   cursor: pointer;
   user-select: none;
 }
+
 
 
 /* Surlignage de la semaine active */
@@ -57,10 +58,10 @@
 /* Petit point du jour exact */
 .timeline-dot{
   position: absolute;
-  bottom: 9px;               /* ⬅️ centré dans la barre fine */
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
+  bottom: 3px;               /* ⬅️ centré dans la barre fine */
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: #111;
   transform: translateX(-50%);
   pointer-events: none;
