@@ -66,15 +66,23 @@ body{
 /* =========================
    2) CARTE
 ========================= */
-#map{
-  height: 610px;
+/* Le cadre qui contient carte + postcard */
+.map-frame{
   width: min(1180px, 94vw);
   margin: 12px auto 0;
-  border-radius: var(--radius);
+  position: relative;
+  overflow: visible; /* IMPORTANT : autorise la carte postale à déborder */
+}
+
+/* La carte garde ses coins arrondis */
+#map{
+  height: 610px;
+  width: 100%;
+  border-radius: 18px;
   border: 2px solid rgba(40,40,40,.65);
   outline: 7px solid rgba(255,255,255,.30);
   box-shadow: var(--shadow);
-  overflow:hidden;
+  overflow: hidden; /* IMPORTANT : garde les coins propres */
 }
 
 /* Marqueurs ronds photo */
@@ -85,101 +93,7 @@ body{
   border: 2px solid rgba(0,0,0,.25);
 }
 
-/* =========================
-   3) CARTE POSTALE (overlay Leaflet)
-========================= */
-.leaflet-control.story-control,
-.story-card,
-.story-card *{
-  pointer-events: auto;
-}
 
-.story-card{
-  width: 340px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(0,0,0,0.10);
-  border-radius: 18px;
-  box-shadow: var(--shadowSoft);
-  padding: 16px 16px 14px;
-  backdrop-filter: blur(3px);
-  position: relative;
-}
-
-/* Scotch */
-.story-card::before{
-  content:"";
-  position:absolute;
-  top:-14px;
-  left: 54%;
-  transform: translateX(-50%) rotate(-4deg);
-  width: 140px;
-  height: 30px;
-  background: rgba(240, 220, 170, .88);
-  border: 1px dashed rgba(0,0,0,.14);
-  border-radius: 7px;
-  box-shadow: 0 14px 22px rgba(0,0,0,.16);
-}
-
-/* Tampon rond */
-.story-card::after{
-  content:"MEXICO";
-  position:absolute;
-  right: 16px;
-  bottom: 14px;
-  width: 78px;
-  height: 78px;
-  display:grid;
-  place-items:center;
-  border-radius: 999px;
-  font-family: "Special Elite", ui-monospace, monospace;
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: rgba(160,40,40,.40);
-  border: 2px dashed rgba(160,40,40,.35);
-  transform: rotate(12deg);
-  opacity:.95;
-}
-
-/* Polaroid */
-.story-card .polaroid{
-  background:#fff;
-  padding: 12px 12px 20px;
-  border-radius: 14px;
-  box-shadow: 0 12px 26px rgba(0,0,0,.16);
-  transform: rotate(-1.2deg);
-}
-
-.story-card img{
-  width:100%;
-  height: 175px;
-  object-fit: cover;
-  border-radius: 10px;
-  display:block;
-}
-
-.story-card h2{
-  margin: 14px 0 6px;
-  text-align:center;
-  font-family: "Playfair Display", serif;
-  font-size: 22px;
-}
-
-.story-card .meta{
-  text-align:center;
-  color: var(--muted);
-  font-size: 12px;
-  font-family: "Special Elite", ui-monospace, monospace;
-  margin-bottom: 10px;
-}
-
-.story-card .desc{
-  margin: 0;
-  text-align:center;
-  font-family: "Special Elite", ui-monospace, monospace;
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: #3a3732;
-}
 
 /* =========================
    4) TIMELINE
@@ -272,5 +186,116 @@ body{
 ========================= */
 @media (max-width: 900px){
   #map{ height: 560px; }
-  .story-card{ width: 300px; }
+  .postcard{ width: 300px; }
 }
+
+/* =========================
+   7) POSTCARD "À CHEVAL"
+========================= */
+
+/* Postcard en overlay + déborde sur la page */
+.postcard{
+  position: absolute;
+  top: -38px;     /* déborde vers le haut */
+  left: -38px;    /* déborde vers la gauche */
+  width: 340px;
+  z-index: 9999;
+
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 18px;
+  box-shadow: var(--shadowSoft);
+  padding: 16px 16px 14px;
+  backdrop-filter: blur(3px);
+}
+
+/* Scotch */
+.postcard::before{
+  content:"";
+  position:absolute;
+  top:-14px;
+  left: 54%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 140px;
+  height: 30px;
+  background: rgba(240, 220, 170, .88);
+  border: 1px dashed rgba(0,0,0,.14);
+  border-radius: 7px;
+  box-shadow: 0 14px 22px rgba(0,0,0,.16);
+}
+
+/* Tampon rond */
+.postcard::after{
+  content:"MEXICO";
+  position:absolute;
+  right: 16px;
+  bottom: 14px;
+  width: 78px;
+  height: 78px;
+  display:grid;
+  place-items:center;
+  border-radius: 999px;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(160,40,40,.40);
+  border: 2px dashed rgba(160,40,40,.35);
+  transform: rotate(12deg);
+  opacity:.95;
+}
+
+/* petit trombone */
+.postcard .clip{
+  position:absolute;
+  right: 14px;
+  top: 8px;
+  width: 18px;
+  height: 34px;
+  border: 2px solid rgba(60,60,60,.35);
+  border-left: none;
+  border-radius: 12px;
+  transform: rotate(10deg);
+  opacity: .9;
+}
+
+
+/* Polaroid */
+.postcard .polaroid{
+  background:#fff;
+  padding: 12px 12px 20px;
+  border-radius: 14px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.16);
+  transform: rotate(-1.2deg);
+}
+.postcard img{
+  width:100%;
+  height: 175px;
+  object-fit: cover;
+  border-radius: 10px;
+  display:block;
+}
+.postcard h2{
+  margin: 14px 0 6px;
+  text-align:center;
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+}
+.postcard .meta{
+  text-align:center;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: "Special Elite", ui-monospace, monospace;
+  margin-bottom: 10px;
+}
+.postcard .desc{
+  margin: 0;
+  text-align:center;
+  font-family: "Special Elite", ui-monospace, monospace;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #3a3732;
+}
+
+
+
+

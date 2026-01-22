@@ -5,79 +5,19 @@ import { points } from "./liste_img_lieux.js";
 // 1) CRÉATION DE LA CARTE
 // ===============================
 
-const map = L.map("map").setView([23.6345, -102.5528], 5);
+const map = L.map("map", {
+  zoomControl: false
+}).setView([23.6345, -102.5528], 5);
+
+// On remet le zoom en bas à droite
+L.control.zoom({ position: "bottomright" }).addTo(map);
+
 
 L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
   attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
   subdomains: "abcd",
   maxZoom: 19
 }).addTo(map);
-
-
-
-// ===============================
-// 1.5) Carte postale (overlay en haut à gauche)
-// ===============================
-
-const StoryControl = L.Control.extend({
-  onAdd: function () {
-    const div = L.DomUtil.create("div", "leaflet-control story-control");
-
-    div.innerHTML = `
-      <div class="story-card" id="storyCard">
-        <div class="polaroid">
-          <img id="cardMediaImg" src="images/default-cover.jpg" alt="Photo du lieu">
-        </div>
-
-        <h2 id="cardTitle">Choisis un lieu</h2>
-        <div class="meta" id="cardMeta">Clique sur un marqueur</div>
-        <p class="desc" id="cardDesc">Tu verras ici la description et la photo/vidéo associée.</p>
-      </div>
-    `;
-
-    // Empêche Leaflet de déplacer la carte quand on clique dans la carte postale
-    L.DomEvent.disableClickPropagation(div);
-    L.DomEvent.disableScrollPropagation(div);
-
-    return div;
-  }
-});
-
-map.addControl(new StoryControl({ position: "topleft" }));
-
-function setStoryCard(point) {
-  const titleEl = document.getElementById("cardTitle");
-  const metaEl  = document.getElementById("cardMeta");
-  const descEl  = document.getElementById("cardDesc");
-  const imgEl   = document.getElementById("cardMediaImg");
-
-  if (!titleEl || !metaEl || !descEl || !imgEl) return;
-
-  titleEl.innerHTML = point.name;
-
-  const dateTxt = point.date
-    ? new Date(point.date).toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" })
-    : "Date inconnue";
-  metaEl.textContent = dateTxt;
-
-  descEl.innerHTML = point.desc || "";
-
-  // Affiche une image : si tableau -> première; si vidéo -> icône caméra (ou image de couverture si tu en as une)
-  if (point.video) {
-    imgEl.src = "images/icon-video.png";
-    imgEl.alt = "Vidéo";
-  } else if (Array.isArray(point.img)) {
-    imgEl.src = point.img[0];
-    imgEl.alt = "Photo";
-  } else if (point.img) {
-    imgEl.src = point.img;
-    imgEl.alt = "Photo";
-  } else {
-    imgEl.src = "images/default-cover.jpg";
-    imgEl.alt = "Aperçu";
-  }
-}
-
 
 
 // ===============================
@@ -297,7 +237,9 @@ document.getElementById("show-all")?.addEventListener("click", () => {
 // ===============================
 // 4) PARCOURS (toujours affiché)
 // ===============================
-const latlngs = points.map(p => [p.lat, p.lng]);
+const latlngs = points
+  .filter(p => typeof p.lat === "number" && typeof p.lng === "number")
+  .map(p => [p.lat, p.lng]);
 
 const parcours = L.polyline(latlngs, {
   color: "black",
@@ -307,3 +249,25 @@ const parcours = L.polyline(latlngs, {
 }).addTo(map);
 
 map.fitBounds(parcours.getBounds());
+
+function setStoryCard(point){
+  const img   = document.getElementById("postcard-img");
+  const title = document.getElementById("postcard-title");
+  const date  = document.getElementById("postcard-date");
+  const desc  = document.getElementById("postcard-desc");
+
+  if (!img || !title || !date || !desc) return;
+
+  const mainImage = Array.isArray(point.img) ? point.img[0] : point.img;
+
+  // Image principale de la postcard
+  if (point.video) img.src = "images/icon-video.png";
+  else if (mainImage) img.src = mainImage;
+  else img.src = "images/default-cover.jpg";
+
+  title.innerHTML = point.name || "";
+  date.textContent = point.date
+    ? new Date(point.date).toLocaleDateString("fr-FR", { weekday:"long", day:"numeric", month:"long", year:"numeric" })
+    : "";
+  desc.innerHTML = point.desc || "";
+}

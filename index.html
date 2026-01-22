@@ -30,7 +30,23 @@
     <h1>Mon voyage au Mexique <span class="stamp-emoji">🇲🇽</span></h1>
   </header>
 
-  <div id="map"></div>
+  <div class="map-frame">
+    <div id="map"></div>
+
+    <!-- Carte postale (dynamique) -->
+    <div class="postcard" id="postcard">
+      <div class="clip"></div>
+
+      <div class="polaroid">
+        <img id="postcard-img" src="images/default-cover.jpg" alt="">
+      </div>
+
+      <h2 id="postcard-title">Choisis un lieu</h2>
+      <div class="meta" id="postcard-date">Clique sur un marqueur</div>
+      <p class="desc" id="postcard-desc">La description apparaîtra ici.</p>
+    </div>
+  </div>
+
 
   <div id="timeline-wrap">
     <div id="timeline"></div>
