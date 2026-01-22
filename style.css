@@ -197,7 +197,7 @@ body{
 .postcard{
   position: absolute;
   top: -38px;     /* déborde vers le haut */
-  left: -38px;    /* déborde vers la gauche */
+  left: -48px;    /* déborde vers la gauche */
   width: 340px;
   z-index: 9999;
 
