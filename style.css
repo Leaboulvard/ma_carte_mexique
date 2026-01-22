@@ -50,9 +50,45 @@ body{
 
 /* Styliser les flèches séparément */ 
 .top-line .arrow{
+  position: relative;
   font-size: 16px;
-  opacity: 0.7;
+  opacity: 0.8;
 }
+
+.top-line .arrow::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  transform: translateY(-50%);
+}
+
+.top-line .arrow::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  width: 6px;
+  height: 6px;
+  border-left: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.top-line .arrow:last-child::before{
+  left: auto;
+  right: -30px;
+}
+
+.top-line .arrow:last-child::after{
+  left: auto;
+  right: -30px;
+  transform: translateY(-50%) rotate(-135deg);
+}
+
 
 .stamp-emoji{
   font-size: 18px;
@@ -103,7 +139,7 @@ h2 {
 .timeline-tick,
 #show-all {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
 }
 
@@ -253,8 +289,8 @@ body {
 /* Postcard en overlay + déborde sur la page */
 .postcard{
   position: absolute;
-  top: -30px;     /* déborde vers le haut */
-  left: -54px;    /* déborde vers la gauche */
+  top: -28px;     /* déborde vers le haut */
+  left: -64px;    /* déborde vers la gauche */
   width: 340px;
   z-index: 9999;
 
@@ -303,16 +339,34 @@ body {
 
 /* petit trombone */
 .postcard .clip{
-  position:absolute;
-  right: 14px;
-  top: 8px;
-  width: 18px;
-  height: 34px;
-  border: 2px solid rgba(60,60,60,.35);
+  position: absolute;
+  right: 18px;
+  top: -18px;                 /* il dépasse au-dessus */
+  width: 22px;               /* un peu plus large */
+  height: 46px;              /* un peu plus grand */
+  border: 2.5px solid rgba(60,60,60,.55);
   border-left: none;
-  border-radius: 12px;
-  transform: rotate(10deg);
-  opacity: .9;
+  border-radius: 14px;
+  transform: rotate(12deg);
+  background: linear-gradient(135deg,
+    rgba(255,255,255,.35),
+    rgba(0,0,0,.08)
+  );
+  box-shadow: 1px 2px 4px rgba(0,0,0,.25);
+  z-index: 5;                /* au-dessus de la carte */
+  opacity: .95;
+}
+
+/* Effet trombone */
+.postcard .clip::after{
+  content:"";
+  position:absolute;
+  top:6px;
+  right:2px;
+  width:3px;
+  height:22px;
+  background: rgba(255,255,255,.5);
+  border-radius: 2px;
 }
 
 
