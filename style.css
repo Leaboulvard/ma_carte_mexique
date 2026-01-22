@@ -38,23 +38,20 @@ body{
   padding: 22px 16px 12px;
 }
 
-.top-line{
+/* Gestion de mise en page  */
+.top-line{     
   display:flex;
   justify-content:center;
   align-items:center;
   gap: 12px;
   color: var(--muted);
-  font-size: 13px;
   margin-bottom: 10px;
-  font-family: "Special Elite", ui-monospace, monospace;
 }
 
-.top h1{
-  margin:0;
-  font-family: "Playfair Display", serif;
-  font-size: 44px;
-  letter-spacing: .2px;
-  text-shadow: 0 2px 0 rgba(255,255,255,.65);
+/* Styliser les flèches séparément */ 
+.top-line .arrow{
+  font-size: 16px;
+  opacity: 0.7;
 }
 
 .stamp-emoji{
@@ -62,6 +59,66 @@ body{
   margin-left: 6px;
   opacity: .9;
 }
+
+/* =========================
+   1.5) TYPOGRAPHIE
+========================= */
+
+/* Règles globale des titres*/
+
+h1, h2, .postcard-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 48px;
+  margin: 12px 0 6px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+
+h2 {
+  font-size: 32px;
+  margin: 8px 0 4px;
+}
+
+.postcard-title {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+/* Gestion de typographie */
+.sub {
+  font-family: "Special Elite", monospace;
+  font-size: 18px;          /* taille (ou 20 à voir)*/
+  letter-spacing: 1px;     /* effet machine à écrire */
+  opacity: 0.9;
+}
+
+/* Corp de texte */
+.postcard-desc,
+.postcard-meta,
+.timeline-label,
+.timeline-tick,
+#show-all {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.postcard-meta {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* typographie par défault */
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background: #f7f3ec;
+  color: #2a2a2a;
+}
+
 
 /* =========================
    2) CARTE
@@ -196,8 +253,8 @@ body{
 /* Postcard en overlay + déborde sur la page */
 .postcard{
   position: absolute;
-  top: -38px;     /* déborde vers le haut */
-  left: -48px;    /* déborde vers la gauche */
+  top: -30px;     /* déborde vers le haut */
+  left: -54px;    /* déborde vers la gauche */
   width: 340px;
   z-index: 9999;
 

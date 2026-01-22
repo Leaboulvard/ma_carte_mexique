@@ -59,7 +59,6 @@ points.forEach(point => {
   const popupHtml = `
     <div style="max-width: 280px;">
       <h3>${point.name}</h3>
-      <p>${point.desc}</p>
       ${
         point.video
           ? `<video width="100%" controls style="margin-top:6px; border-radius:10px;">
